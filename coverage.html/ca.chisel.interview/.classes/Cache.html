@@ -1,0 +1,109 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Cache</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">ca.chisel.interview</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Cache (ca.chisel.interview)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Cache</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package ca.chisel.interview;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import java.util.Map;
+<i>5</i>&nbsp;import java.util.Set;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * An Cache Interface for Java
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * @param &lt;K&gt; the key of the value
+<i>11</i>&nbsp; * @param &lt;V&gt; the value to be cached
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public interface Cache&lt;K,V&gt; {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Put a value into the cache
+<i>17</i>&nbsp;     *
+<i>18</i>&nbsp;     * @param key   the key
+<i>19</i>&nbsp;     * @param value the value
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    void put(K key, V value);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Get a value from the cache
+<i>25</i>&nbsp;     *
+<i>26</i>&nbsp;     * @param key the key
+<i>27</i>&nbsp;     * @return the v
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;    V get(K key);
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Delete a value from the cache
+<i>33</i>&nbsp;     *
+<i>34</i>&nbsp;     * @param key the key
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    void del(K key);
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Reset the cache and empty all values.
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    void reset();
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * Checks to see if the cache contains a value.
+<i>45</i>&nbsp;     * Does this without reading the value.
+<i>46</i>&nbsp;     *
+<i>47</i>&nbsp;     * @param key the key
+<i>48</i>&nbsp;     * @return the boolean
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    boolean cacheContains(K key);
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Get the backing entry set of the cache.
+<i>54</i>&nbsp;     *
+<i>55</i>&nbsp;     * @return the map
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet();
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    int getMaxSize();
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    int getCurrentSize();
+<i>62</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-07 10:52</div>
+</div>
+</body>
+</html>

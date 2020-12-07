@@ -1,0 +1,263 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: IndexedDoubleLinkedList</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">ca.chisel.interview</a> ]
+</div>
+
+<h1>Coverage Summary for Class: IndexedDoubleLinkedList (ca.chisel.interview)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IndexedDoubleLinkedList</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.6%
+  </span>
+  <span class="absValue">
+    (57/ 59)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">IndexedDoubleLinkedList$ListIterator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/ 13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.2%
+  </span>
+  <span class="absValue">
+    (70/ 72)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package ca.chisel.interview;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.jetbrains.annotations.NotNull;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.HashMap;
+<i>6</i>&nbsp;import java.util.Iterator;
+<i>7</i>&nbsp;import java.util.Map;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class IndexedDoubleLinkedList&lt;K,V&gt; implements Iterable&lt;Map.Entry&lt;K,V&gt;&gt; {
+<i>10</i>&nbsp;    private Node&lt;K,V&gt; head;
+<i>11</i>&nbsp;    private Node&lt;K,V&gt; tail;
+<i>12</i>&nbsp;    private final Map&lt;K,Node&lt;K,V&gt;&gt; index;
+<i>13</i>&nbsp;
+<b class="fc"><i>14</i>&nbsp;    public IndexedDoubleLinkedList() {</b>
+<b class="fc"><i>15</i>&nbsp;        index = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    public IndexedDoubleLinkedList(final int initialSize) {</b>
+<b class="fc"><i>19</i>&nbsp;        index = new HashMap&lt;&gt;(initialSize);</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @NotNull
+<i>24</i>&nbsp;    @Override
+<i>25</i>&nbsp;    public Iterator&lt;Map.Entry&lt;K, V&gt;&gt; iterator() {
+<b class="fc"><i>26</i>&nbsp;        return new ListIterator&lt;&gt;(head);</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public void put(final K key, final V value) {
+<b class="fc"><i>30</i>&nbsp;        final Node&lt;K,V&gt; node = index.get(key);</b>
+<b class="fc"><i>31</i>&nbsp;        if (node != null) {</b>
+<b class="nc"><i>32</i>&nbsp;            node.setValue(value);</b>
+<i>33</i>&nbsp;        } else {
+<b class="fc"><i>34</i>&nbsp;            final Node&lt;K,V&gt; newNode = new Node&lt;&gt;(key,value);</b>
+<b class="fc"><i>35</i>&nbsp;            index.put(key,newNode);</b>
+<b class="fc"><i>36</i>&nbsp;            if (index.size() == 1) {</b>
+<b class="fc"><i>37</i>&nbsp;                this.head = newNode;</b>
+<b class="fc"><i>38</i>&nbsp;            } else if (index.size() == 2) {</b>
+<b class="fc"><i>39</i>&nbsp;                this.head.setChild(newNode);</b>
+<i>40</i>&nbsp;            } else {
+<b class="fc"><i>41</i>&nbsp;                this.tail.setChild(newNode);</b>
+<i>42</i>&nbsp;            }
+<b class="fc"><i>43</i>&nbsp;            this.tail = newNode;</b>
+<i>44</i>&nbsp;        }
+<b class="fc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public boolean remove(final K key) {
+<b class="fc"><i>48</i>&nbsp;        final Node&lt;K,V&gt; candidate = index.get(key);</b>
+<b class="fc"><i>49</i>&nbsp;        if (candidate != null) {</b>
+<b class="fc"><i>50</i>&nbsp;            index.remove(key);</b>
+<b class="fc"><i>51</i>&nbsp;            final Node&lt;K,V&gt; parent = candidate.getParent();</b>
+<b class="fc"><i>52</i>&nbsp;            final Node&lt;K,V&gt; child = candidate.getChild();</b>
+<i>53</i>&nbsp;
+<b class="fc"><i>54</i>&nbsp;            candidate.unlink();</b>
+<b class="fc"><i>55</i>&nbsp;            if (parent != null) {</b>
+<b class="fc"><i>56</i>&nbsp;                parent.setChild(child);</b>
+<i>57</i>&nbsp;            }
+<i>58</i>&nbsp;
+<b class="fc"><i>59</i>&nbsp;            if (candidate.equals(head)) {</b>
+<b class="fc"><i>60</i>&nbsp;                head = child;</b>
+<b class="fc"><i>61</i>&nbsp;            } else if (candidate.equals(tail)) {</b>
+<b class="fc"><i>62</i>&nbsp;                tail = parent;</b>
+<i>63</i>&nbsp;            }
+<b class="fc"><i>64</i>&nbsp;            return true;</b>
+<i>65</i>&nbsp;        } else {
+<b class="nc"><i>66</i>&nbsp;            return false;</b>
+<i>67</i>&nbsp;        }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public Node&lt;K, V&gt; getHead() {
+<b class="fc"><i>72</i>&nbsp;        return head;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public void putHead(final K key, final V value) {
+<b class="fc"><i>76</i>&nbsp;        final Node&lt;K,V&gt; node = index.get(key);</b>
+<b class="fc"><i>77</i>&nbsp;        if (node != null) {</b>
+<b class="fc"><i>78</i>&nbsp;            remove(key);</b>
+<b class="fc"><i>79</i>&nbsp;            node.setChild(head);</b>
+<b class="fc"><i>80</i>&nbsp;            node.setValue(value);</b>
+<b class="fc"><i>81</i>&nbsp;            head = node;</b>
+<b class="fc"><i>82</i>&nbsp;            index.put(node.getKey(),node);</b>
+<i>83</i>&nbsp;        } else {
+<b class="fc"><i>84</i>&nbsp;            final Node&lt;K,V&gt; newNode = new Node&lt;&gt;(key,value);</b>
+<b class="fc"><i>85</i>&nbsp;            index.put(newNode.getKey(),newNode);</b>
+<b class="fc"><i>86</i>&nbsp;            newNode.setChild(head);</b>
+<b class="fc"><i>87</i>&nbsp;            head = newNode;</b>
+<i>88</i>&nbsp;        }
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;        if (index.size() == 2) {</b>
+<b class="fc"><i>91</i>&nbsp;            tail = head.getChild();</b>
+<i>92</i>&nbsp;        }
+<i>93</i>&nbsp;
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    public Node&lt;K, V&gt; getTail() {
+<b class="fc"><i>98</i>&nbsp;        return tail;</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    public boolean containsKey(final K key) {
+<b class="fc"><i>102</i>&nbsp;        return index.containsKey(key);</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    public V get(final K key) {
+<b class="fc"><i>106</i>&nbsp;        final Node&lt;K,V&gt; nodeCandidate = index.get(key);</b>
+<i>107</i>&nbsp;
+<b class="fc"><i>108</i>&nbsp;        if (nodeCandidate != null) {</b>
+<b class="fc"><i>109</i>&nbsp;            return nodeCandidate.getValue();</b>
+<i>110</i>&nbsp;        } else {
+<b class="fc"><i>111</i>&nbsp;            return null;</b>
+<i>112</i>&nbsp;        }
+<i>113</i>&nbsp;    }
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    public void clear() {
+<b class="fc"><i>117</i>&nbsp;        head = null;</b>
+<b class="fc"><i>118</i>&nbsp;        tail = null;</b>
+<b class="fc"><i>119</i>&nbsp;        index.clear();</b>
+<b class="fc"><i>120</i>&nbsp;    }</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    public int size() {
+<b class="fc"><i>123</i>&nbsp;        return index.size();</b>
+<i>124</i>&nbsp;    }
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    class ListIterator&lt;K,V&gt; implements Iterator&lt;Map.Entry&lt;K,V&gt;&gt; {
+<i>127</i>&nbsp;        private Node&lt;K,V&gt; currentNode;
+<b class="fc"><i>128</i>&nbsp;        private boolean first = true;</b>
+<b class="fc"><i>129</i>&nbsp;        public ListIterator(final Node&lt;K, V&gt; startNode) {</b>
+<b class="fc"><i>130</i>&nbsp;            this.currentNode = startNode;</b>
+<b class="fc"><i>131</i>&nbsp;        }</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;        @Override
+<i>134</i>&nbsp;        public boolean hasNext() {
+<b class="fc"><i>135</i>&nbsp;            if ((first) &amp;&amp; (currentNode != null)) {</b>
+<b class="fc"><i>136</i>&nbsp;                return true;</b>
+<b class="fc"><i>137</i>&nbsp;            } else if (currentNode.getChild() != null) {</b>
+<b class="fc"><i>138</i>&nbsp;                return true;</b>
+<i>139</i>&nbsp;            }
+<b class="fc"><i>140</i>&nbsp;            return false;</b>
+<i>141</i>&nbsp;        }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;        @Override
+<i>144</i>&nbsp;        public Map.Entry&lt;K, V&gt; next() {
+<b class="fc"><i>145</i>&nbsp;            if ((first)) {</b>
+<b class="fc"><i>146</i>&nbsp;                first = false;</b>
+<i>147</i>&nbsp;            } else {
+<b class="fc"><i>148</i>&nbsp;                currentNode = currentNode.getChild();</b>
+<i>149</i>&nbsp;            }
+<b class="fc"><i>150</i>&nbsp;            return new NodeEntryWrapper&lt;&gt;(currentNode);</b>
+<i>151</i>&nbsp;        }
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-07 10:52</div>
+</div>
+</body>
+</html>
